@@ -41,7 +41,7 @@ public class QcloudCloudStorageService extends AbstractCloudStorageService {
 
     private void init(){
         //1、初始化用户身份信息(secretId, secretKey)
-        credentials = new BasicCOSCredentials(config.getQcloudSecretId(), config.getQcloudSecretKey());
+        credentials = new BasicCOSCredentials(config.getQcloudAppId().toString(), config.getQcloudSecretId(), config.getQcloudSecretKey());
     	
     	//2、设置bucket的区域, COS地域的简称请参照 https://cloud.tencent.com/document/product/436/6224
         clientConfig = new ClientConfig(new Region(config.getQcloudRegion()));
@@ -59,7 +59,7 @@ public class QcloudCloudStorageService extends AbstractCloudStorageService {
 
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentLength(inputStream.available());
-            String bucketName = config.getQcloudBucketName() +"-"+ config.getQcloudAppId();
+            String bucketName = config.getQcloudBucketName();
             PutObjectRequest request = new PutObjectRequest(bucketName, path, inputStream, metadata);
             PutObjectResult result = client.putObject(request);
             
